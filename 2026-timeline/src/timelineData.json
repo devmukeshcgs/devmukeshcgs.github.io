@@ -1,5 +1,5 @@
 {
-    "experience2": [
+    "experience": [
         {
             "company": "Blackant Advertising",
             "role": "Web Designer",
@@ -47,6 +47,12 @@
             "role": "Frontend Developer",
             "yr": 2023.1,
             "display": "2023"
+        },
+        {
+            "company": "11Challengers",
+            "role": "Frontend Developer",
+            "yr": 2024,
+            "display": "2024"
         }
     ]
 }
