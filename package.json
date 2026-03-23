@@ -14,10 +14,14 @@
     "sass": "^1.69.5",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "react-devtools": "^4.22.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "devtools": "react-devtools",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

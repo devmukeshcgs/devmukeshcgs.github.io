@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, useTransform, useScroll } from "framer-motion";
 
 const transition = { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] };
@@ -414,7 +415,6 @@ const Home = ({ imageDetails, image }) => {
               data-wow-delay="0.3s"></div>
           </div>
         </div>
-      </div>
       <div className="detailed-information">
         <div className="container">
           <div className="row">
@@ -483,8 +483,9 @@ const Home = ({ imageDetails, image }) => {
             </p>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </div>      
+    </main>
+    </>
   );
 };
 

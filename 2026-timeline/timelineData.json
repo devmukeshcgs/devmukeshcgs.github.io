@@ -1,0 +1,60 @@
+{
+    "experience": [
+        {
+            "company": "11Challengers Pvt. Ltd.",
+            "role": "Frontend Developer",
+            "start": "2023-02",
+            "end": "2025-08",
+            "description": "App and Admin Panel development using ReactJS & React Native[cite: 16, 17, 18]."
+        },
+        {
+            "company": "BeMasterly",
+            "role": "Frontend Developer",
+            "start": "2022-04",
+            "end": "2023-06",
+            "description": "E-commerce platforms using ReactJS[cite: 19, 20, 21]."
+        },
+        {
+            "company": "Navneet Future Tech Ltd.",
+            "role": "Frontend Developer",
+            "start": "2020-01",
+            "end": "2022-04",
+            "description": "UI/UX implementation for e-commerce[cite: 24, 25, 26]."
+        },
+        {
+            "company": "Coinlock LLC",
+            "role": "Frontend Developer (Contract)",
+            "start": "2021-04",
+            "end": "2021-12",
+            "description": "Responsive frontend applications[cite: 27, 28, 29]."
+        },
+        {
+            "company": "McCann World Group",
+            "role": "Frontend Developer",
+            "start": "2018-09",
+            "end": "2020-08",
+            "description": "Interactive features and Liferay themes[cite: 30, 31]."
+        },
+        {
+            "company": "Astrika Infotech Pvt. Ltd.",
+            "role": "Frontend Developer",
+            "start": "2014-07",
+            "end": "2018-08",
+            "description": "AJAX and JavaScript frameworks[cite: 33, 36]."
+        },
+        {
+            "company": "HnM Travel Agency",
+            "role": "Graphic/Web Designer",
+            "start": "2012-07",
+            "end": "2013-06",
+            "description": "Web and Graphic design[cite: 37]."
+        },
+        {
+            "company": "Blackant Advertising Agency",
+            "role": "Web Designer",
+            "start": "2007-11",
+            "end": "2012-06",
+            "description": "Web design services[cite: 38]."
+        }
+    ]
+}

@@ -1,0 +1,52 @@
+{
+    "experience": [
+        {
+            "company": "Blackant Advertising",
+            "role": "Web Designer",
+            "yr": 2007.9,
+            "display": "2007"
+        },
+        {
+            "company": "HnM Travel Agency",
+            "role": "Graphic/Web Designer",
+            "yr": 2012.5,
+            "display": "2012"
+        },
+        {
+            "company": "Astrika Infotech",
+            "role": "Frontend Developer",
+            "yr": 2014.5,
+            "display": "2014"
+        },
+        {
+            "company": "McCann World Group",
+            "role": "Frontend Developer",
+            "yr": 2018.7,
+            "display": "2018"
+        },
+        {
+            "company": "Navneet Future Tech",
+            "role": "Frontend Developer",
+            "yr": 2020.0,
+            "display": "2020"
+        },
+        {
+            "company": "Coinlock LLC",
+            "role": "Frontend Developer",
+            "yr": 2021.3,
+            "display": "2021"
+        },
+        {
+            "company": "BeMasterly",
+            "role": "Frontend Developer",
+            "yr": 2022.3,
+            "display": "2022"
+        },
+        {
+            "company": "11Challengers",
+            "role": "Frontend Developer",
+            "yr": 2023.1,
+            "display": "2023"
+        }
+    ]
+}
