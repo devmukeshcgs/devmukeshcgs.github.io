@@ -48,6 +48,22 @@ const sketch = (p) => {
         size: 10,
         scale: 1,
         targetScale: 1,
+        alpha: 0.0,
+        targetAlpha: 100,
+        rectSize: 0,
+        targetRectSize: 100,
+        rect: {
+          x: xx,
+          y: p.height / 2,
+          w: 0,
+          h: 100,
+        },
+        targetRect: {
+          x: xx,
+          y: 0,
+          w: 100,
+          h: 100,
+        },
       });
     }
   };
@@ -66,14 +82,29 @@ const sketch = (p) => {
 
       if (d < item.size / 2) {
         item.targetScale = 2;
+        item.targetAlpha = 255; // fully visible
+        item.targetRectSize = 200; // fully visible
       } else {
         item.targetScale = 1;
+        item.targetAlpha = 0; // faded
+        item.targetRectSize = 0; // faded
       }
-
-      // 👉 Smooth animation
+      // 👉 Lerp Value -smooth animation
+      item.alpha = p.lerp(item.alpha, item.targetAlpha, 0.1);
       item.scale = p.lerp(item.scale, item.targetScale, 0.1);
+      item.rectSize = p.lerp(item.rectSize, item.targetRectSize, 0.1);
+      item.rect = p.lerp(item.rectSize, item.targetRectSize, 0.1);
+
+      // DRAW Fun
       drawVLine(item.x);
-      drawMarkers(item, i, item.targetScale);
+      drawMarkers(item, i, item.targetScale, item.alpha, item.rectSize);
+      p.rect(
+        item.x,
+        item.y - item.rectSize / 2,
+        item.rectSize,
+        item.rectSize / 2,
+      );
+
       // 👉 Draw
       p.push();
       p.translate(item.x, item.y);
@@ -83,80 +114,6 @@ const sketch = (p) => {
       p.ellipse(0, 0, item.size);
       p.pop();
     });
-
-    // for (let item of items22) {
-    //   // 👉 Hover detection
-    //   let d = p.dist(p.mouseX, p.mouseY, item.x, item.y);
-
-    //   if (d < item.size / 2) {
-    //     item.targetScale = 2;
-    //   } else {
-    //     item.targetScale = 1;
-    //   }
-
-    //   // 👉 Smooth animation
-    //   item.scale = p.lerp(item.scale, item.targetScale, 0.1);
-    //   drawVLine(item.x);
-    //   drawMarkers(item, item.x, item.y);
-    //   // 👉 Draw
-    //   p.push();
-    //   p.translate(item.x, item.y);
-    //   p.scale(item.scale);
-    //   p.fill(255);
-    //   p.noStroke();
-    //   p.ellipse(0, 0, item.size);
-    //   p.pop();
-    // }
-
-    // let padding = p.width * 0.0;
-    let centerY = p.height / 2;
-    // let currentXLimit = p.map(
-    //   animation.progress,
-    //   0,
-    //   1,
-    //   padding,
-    //   p.width - padding,
-    // );
-
-    // Only trigger GSAP if data is likely ready
-    // gsap.to(animation, {
-    //   progress: 1,
-    //   duration: 3,
-    //   ease: "power3.inOut",
-    //   delay: 0.5,
-    // });
-
-    // SAFETY CHECK: Prevent drawing if data hasn't loaded yet
-    // if (!timelineData) {
-    //   p.background(10);
-    //   p.fill(255);
-    //   p.textAlign(p.CENTER);
-    //   p.text("Loading Portfolio Experience...", p.width / 2, p.height / 2);
-    //   return;
-    // }
-
-    // p.background(10, 10, 15);
-
-    // Main Timeline Track
-    // p.stroke(40, 45, 60);
-    // p.strokeWeight(1);
-    // p.line(0, centerY, p.width, centerY);
-
-    // Progress Line
-    // p.stroke(0, 255, 204);
-    // p.line(padding, centerY, currentXLimit, centerY);
-
-    // if (!timelineData) {
-    // timelineData.experience.forEach((item, index) => {
-    // let x = p.map(item.yr, startYear, endYear, padding, p.width - padding);
-    // Vertical Line
-    // drawVLine(x);
-    // Marker
-    // drawMarkers(item, x, index, centerY);
-
-    // }
-    // });
-    // }
   };
 
   function drawVLine(x) {
@@ -184,7 +141,7 @@ const sketch = (p) => {
     p.rect(x, centerY, c, rectSize);
   }
 
-  function drawMarkers(item, i, newTargetScale, d) {
+  function drawMarkers(item, i, newTargetScale, lerpAlpha, lerpRectSize) {
     let rectSize = 100;
     // // Labels
     p.textAlign(p.CENTER);
@@ -196,27 +153,6 @@ const sketch = (p) => {
       item.x,
       item.y + 25,
     );
-    let colorA = p.color(255, 0, 0, 0); // Transparent Red
-    let colorB = p.color(255, 0, 0, 255); // Opaque Red
-    // 👉 Smooth animation
-    let dd = p.lerp(item.scale, item.targetScale, 0, 255, 0.1);
-    // let lerpAlpha = p.lerp(colorA, colorB, 10);
-    console.log(dd);
-
-    // 👉 Draw
-    p.push();
-    p.noStroke();
-    // p.translate(item.x, item.y);
-    // p.scale(isc);
-    // p.fill(255, 255, 255, dd);
-    // p.fill(255, 255, 255, lerpAlpha);
-    p.rect(item.x, item.y - rectSize * dd, rectSize * 2, rectSize);
-    p.pop();
-
-    // if (isHovered) {
-    // drawToolTip(x, centerY, isHovered);
-    // let currentXLimit = p.map(animation2.progress, 0, 1, 0, rectSize);
-    // p.rect(item.x, item.y - rectSize, currentXLimit, rectSize);
 
     // Company & Role Placement
     let yOffset = i % 2 === 0 ? -20 : 60;
