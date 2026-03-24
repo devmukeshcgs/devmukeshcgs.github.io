@@ -1,4 +1,24 @@
 {
+    "about": {
+        "name": "Mukesh",
+        "lastname": "Thankar",
+        "me": "I am Mukesh Thankar, a graphic designer and web developer living in Mumbai, India. I am primarily focused on web design, and development but love taking on any good design/development challenge. I love getting to collaborate with clients to find a strategic and creative solution for any and all of their design needs. When I am not designing, you can find me drawing, playing games.",
+        "birth": "1986",
+        "education": [
+            "SSC",
+            "HSC",
+            "BCA"
+        ],
+        "skills": [
+            "Photoshop",
+            "Illustrator",
+            "FIgma",
+            "HTML5",
+            "CSS3",
+            "Javascript",
+            "React JS"
+        ]
+    },
     "experience": [
         {
             "company": "Blackant Advertising",

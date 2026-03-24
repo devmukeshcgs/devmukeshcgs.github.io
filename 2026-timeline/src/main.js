@@ -43,6 +43,8 @@ const sketch = (p) => {
       );
 
       items22.push({
+        animating: true,
+        locked: false,
         x: xx,
         y: p.height / 2,
         size: 10,
@@ -60,7 +62,7 @@ const sketch = (p) => {
         },
         targetRect: {
           x: xx,
-          y: 0,
+          y: p.height / 2,
           w: 100,
           h: 100,
         },
@@ -79,25 +81,47 @@ const sketch = (p) => {
     items22.forEach((item, i) => {
       // 👉 Hover detection
       let d = p.dist(p.mouseX, p.mouseY, item.x, item.y);
+      // 👉 Hover only if not locked
+      if (!item.locked) {
+        if (d < item.size / 2) {
+          item.targetScale = 2;
+          item.targetAlpha = 255; // fully visible
+          item.targetRectSize = 200; // fully visible
+          item.targetRect.w = 100;
+          item.targetRect.x = item.x;
+        } else {
+          item.targetScale = 1;
+          item.targetAlpha = 0; // faded
+          item.targetRectSize = 0; // faded
+          item.targetRect.x = item.x;
+          item.targetRect.w = 0;
+        }
+      }
+      // 👉 Animate only if allowed
+      if (item.animating) {
+        item.scale = p.lerp(item.scale, item.targetScale, 0.1);
 
-      if (d < item.size / 2) {
-        item.targetScale = 2;
-        item.targetAlpha = 255; // fully visible
-        item.targetRectSize = 200; // fully visible
-      } else {
-        item.targetScale = 1;
-        item.targetAlpha = 0; // faded
-        item.targetRectSize = 0; // faded
+        // stop when close enough
+        if (p.abs(item.scale - item.targetScale) < 0.01) {
+          item.animating = false;
+        }
       }
       // 👉 Lerp Value -smooth animation
       item.alpha = p.lerp(item.alpha, item.targetAlpha, 0.1);
       item.scale = p.lerp(item.scale, item.targetScale, 0.1);
       item.rectSize = p.lerp(item.rectSize, item.targetRectSize, 0.1);
-      item.rect = p.lerp(item.rectSize, item.targetRectSize, 0.1);
-
+      // item.rect = p.lerp(item.rectSize, item.targetRectSize, 0.1);
+      // Lerp Object
+      lerpRect(item.rect, item.targetRect, 0.1);
       // DRAW Fun
       drawVLine(item.x);
       drawMarkers(item, i, item.targetScale, item.alpha, item.rectSize);
+      p.push();
+      p.noStroke();
+      p.fill(255, 0, 0);
+      p.rect(item.rect.x, item.rect.y, item.rect.w, item.rect.h);
+      p.pop();
+      // Working Eg.
       p.rect(
         item.x,
         item.y - item.rectSize / 2,
@@ -122,27 +146,13 @@ const sketch = (p) => {
     p.line(x, 0, x, p.height);
   }
 
-  let animation2 = { progress: 0 };
-
-  gsap.to(animation2, {
-    progress: 1,
-    duration: 3,
-    ease: "power3.inOut",
-    delay: 0.5,
-  });
-  function drawToolTip(x, centerY, isHovered) {
-    let rectSize = 100;
-    let c;
-    if (isHovered) {
-      c = p.lerp(10, rectSize, 1);
-    } else {
-      c = p.lerp(rectSize, 10, 0);
-    }
-    p.rect(x, centerY, c, rectSize);
+  function lerpRect(r, tr, amt) {
+    r.x = p.lerp(r.x, tr.x, amt);
+    r.y = p.lerp(r.y, tr.y, amt);
+    r.w = p.lerp(r.w, tr.w, amt);
+    r.h = p.lerp(r.h, tr.h, amt);
   }
-
   function drawMarkers(item, i, newTargetScale, lerpAlpha, lerpRectSize) {
-    let rectSize = 100;
     // // Labels
     p.textAlign(p.CENTER);
     p.fill(200);
@@ -165,11 +175,26 @@ const sketch = (p) => {
     //   p.rect(x, centerY - rectSize, currentXLimit, rectSize);
     // }
   }
+  p.mouseClicked = () => {}
+  p.mousePressed = () => {
+    for (let item of items22) {
+      let d = p.dist(p.mouseX, p.mouseY, item.x, item.y);
+
+      if (d < item.size / 2) {
+        item.locked = true;
+        item.targetScale = 2;
+        item.animating = true;
+      }else{
+        item.locked = false;
+        item.targetScale=1;
+         item.animating = false;
+      }
+    }
+  };
   function handleMouseMove(event) {}
 
-  function handleMouseLeave() {
-    hoveredYear = null;
-  }
+  function handleMouseLeave() {}
+
   p.windowResized = () => {
     p.resizeCanvas(p.windowWidth, p.windowHeight);
   };
