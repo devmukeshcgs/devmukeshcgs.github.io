@@ -59,7 +59,8 @@ const sketch = (p) => {
     p.strokeWeight(0.5);
     p.line(0, p.height / 2, p.width, p.height / 2);
     p.pop();
-    for (let item of items22) {
+
+    items22.forEach((item, i) => {
       // 👉 Hover detection
       let d = p.dist(p.mouseX, p.mouseY, item.x, item.y);
 
@@ -72,6 +73,7 @@ const sketch = (p) => {
       // 👉 Smooth animation
       item.scale = p.lerp(item.scale, item.targetScale, 0.1);
       drawVLine(item.x);
+      drawMarkers(item, i, item.targetScale);
       // 👉 Draw
       p.push();
       p.translate(item.x, item.y);
@@ -80,7 +82,31 @@ const sketch = (p) => {
       p.noStroke();
       p.ellipse(0, 0, item.size);
       p.pop();
-    }
+    });
+
+    // for (let item of items22) {
+    //   // 👉 Hover detection
+    //   let d = p.dist(p.mouseX, p.mouseY, item.x, item.y);
+
+    //   if (d < item.size / 2) {
+    //     item.targetScale = 2;
+    //   } else {
+    //     item.targetScale = 1;
+    //   }
+
+    //   // 👉 Smooth animation
+    //   item.scale = p.lerp(item.scale, item.targetScale, 0.1);
+    //   drawVLine(item.x);
+    //   drawMarkers(item, item.x, item.y);
+    //   // 👉 Draw
+    //   p.push();
+    //   p.translate(item.x, item.y);
+    //   p.scale(item.scale);
+    //   p.fill(255);
+    //   p.noStroke();
+    //   p.ellipse(0, 0, item.size);
+    //   p.pop();
+    // }
 
     // let padding = p.width * 0.0;
     let centerY = p.height / 2;
@@ -158,52 +184,45 @@ const sketch = (p) => {
     p.rect(x, centerY, c, rectSize);
   }
 
-  function drawMarkers(item, x, index, centerY, isHovered) {
-    // 👉 Hover detection
-    let targetScale = 1;
-    let d = p.dist(p.mouseX, p.mouseY, item.x, centerY);
-    if (d < 100 / 2) {
-      targetScale = 2;
-    } else {
-      targetScale = 1;
-    }
+  function drawMarkers(item, i, newTargetScale, d) {
+    let rectSize = 100;
+    // // Labels
+    p.textAlign(p.CENTER);
+    p.fill(200);
+    p.textSize(8);
+    p.text(
+      timelineData.experience[i].display ||
+        Math.floor(timelineData.experience[i].yr),
+      item.x,
+      item.y + 25,
+    );
+    let colorA = p.color(255, 0, 0, 0); // Transparent Red
+    let colorB = p.color(255, 0, 0, 255); // Opaque Red
     // 👉 Smooth animation
-    let Xscale = p.lerp(1, targetScale, 0.1);
+    let dd = p.lerp(item.scale, item.targetScale, 0, 255, 0.1);
+    // let lerpAlpha = p.lerp(colorA, colorB, 10);
+    console.log(dd);
+
     // 👉 Draw
     p.push();
-    p.translate(x, centerY);
-    p.scale(Xscale);
-    // p.fill(255);
     p.noStroke();
-    p.ellipse(0, 0, 10);
+    // p.translate(item.x, item.y);
+    // p.scale(isc);
+    // p.fill(255, 255, 255, dd);
+    // p.fill(255, 255, 255, lerpAlpha);
+    p.rect(item.x, item.y - rectSize * dd, rectSize * 2, rectSize);
     p.pop();
 
-    // let dx = (p.mouseX - x) / 6;
-    // let dy = (p.mouseY - centerY) / 6;
-    // isHovered = dx * dx + dy * dy <= 1;
-    // let ellipsSize = isHovered ? 15 : 12;
-    // p.noStroke();
-    // // p.fill(0, 255, 204);
-    // p.fill(isHovered ? "orange" : "blue");
-    // p.ellipse(x, centerY, ellipsSize, ellipsSize);
-
-    // // // Labels
-    // p.textAlign(p.CENTER);
-    // p.fill(200);
-    // p.textSize(8);
-    // p.text(item.display || Math.floor(item.yr), x, centerY + 25);
-
     // if (isHovered) {
-    //   // drawToolTip(x, centerY, isHovered);
-    //   let rectSize = 100;
-    //   let currentXLimit = p.map(animation2.progress, 0, 1, 0, rectSize);
-    //   p.rect(x, centerY - rectSize, currentXLimit, rectSize);
+    // drawToolTip(x, centerY, isHovered);
+    // let currentXLimit = p.map(animation2.progress, 0, 1, 0, rectSize);
+    // p.rect(item.x, item.y - rectSize, currentXLimit, rectSize);
 
-    //   // Company & Role Placement
-    //   let yOffset = index % 2 === 0 ? -20 : 60;
-    //   p.fill(255);
-    //   p.textSize(12);
-    //   p.text(item.company, x, centerY + yOffset);
+    // Company & Role Placement
+    let yOffset = i % 2 === 0 ? -20 : 60;
+    p.fill(255);
+    p.textSize(12);
+    p.text(timelineData.experience[i].company, item.x, item.y + yOffset);
     // } else {
     //   let rectSize = 0;
     //   let currentXLimit = p.map(animation2.progress, 0, 1, 0, rectSize);
