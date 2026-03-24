@@ -303,3 +303,12 @@ code {
     border-right-color: var(--border);
   }
 }
+#tooltip {
+  position: absolute;
+  background: rgb(31, 0, 168);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  pointer-events: none;
+  display: none;
+}

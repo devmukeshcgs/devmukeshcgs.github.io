@@ -9,14 +9,12 @@ import p5 from "p5";
 import gsap from "gsap";
 
 // Global state object
-// const state = {
-//   mouseX: 0,
-//   mouseY: 0,
-//   hoveredEllipse: null,
-// };
+const state = {};
 
 const sketch = (p) => {
-  let items22 = [];
+  let items = [];
+  let activeIndex = -1;
+  let tooltip;
   // let timelineData = null; // Initialize as null to check status
   let animation = { progress: 0 };
   const startYear = 2007;
@@ -33,6 +31,9 @@ const sketch = (p) => {
     const canvasElement = document.getElementById("defaultCanvas0");
     canvasElement.addEventListener("mousemove", handleMouseMove);
     canvasElement.addEventListener("mouseleave", handleMouseLeave);
+    // get tooltip div
+    tooltip = document.getElementById("tooltip");
+
     for (let i = 0; i < timelineData.experience.length; i++) {
       let xx = p.map(
         timelineData.experience[i].yr,
@@ -42,7 +43,7 @@ const sketch = (p) => {
         p.width,
       );
 
-      items22.push({
+      items.push({
         animating: true,
         locked: false,
         x: xx,
@@ -78,7 +79,7 @@ const sketch = (p) => {
     p.line(0, p.height / 2, p.width, p.height / 2);
     p.pop();
 
-    items22.forEach((item, i) => {
+    items.forEach((item, i) => {
       // 👉 Hover detection
       let d = p.dist(p.mouseX, p.mouseY, item.x, item.y);
       // 👉 Hover only if not locked
@@ -138,7 +139,41 @@ const sketch = (p) => {
       p.ellipse(0, 0, item.size);
       p.pop();
     });
+    handleInteraction(p.mouseX, p.mouseY);
+    // 👉 Tooltip logic
+    updateTooltip();
   };
+  function updateTooltip() {
+    if (!tooltip) return;
+
+    if (activeIndex !== -1) {
+      let item = items[activeIndex];
+
+      let rect = p.canvas.getBoundingClientRect();
+
+      tooltip.style.display = "block";
+      tooltip.style.left = rect.left + item.x + "px";
+      tooltip.style.top = rect.top + item.y - 40 + "px";
+      tooltip.innerHTML = `Item ${activeIndex}`;
+    } else {
+      tooltip.style.display = "none";
+    }
+  }
+  // // 👉 Click (desktop)
+  // p.mousePressed = () => {
+  //   handleInteraction(p.mouseX, p.mouseY, true);
+  // };
+
+  // // 👉 Touch (mobile)
+  // p.touchStarted = () => {
+  //   handleInteraction(p.mouseX, p.mouseY, true);
+  //   return false;
+  // };
+
+  // p.touchMoved = () => {
+  //   handleInteraction(p.mouseX, p.mouseY);
+  //   return false;
+  // };
 
   function drawVLine(x) {
     // console.log("Called");
@@ -175,22 +210,82 @@ const sketch = (p) => {
     //   p.rect(x, centerY - rectSize, currentXLimit, rectSize);
     // }
   }
-  p.mouseClicked = () => {}
+  p.mouseClicked = () => {};
   p.mousePressed = () => {
-    for (let item of items22) {
-      let d = p.dist(p.mouseX, p.mouseY, item.x, item.y);
+    handleInteraction(p.mouseX, p.mouseY, true);
+    //   for (let item of items) {
+    //     let d = p.dist(p.mouseX, p.mouseY, item.x, item.y);
+
+    //     if (d < item.size / 2) {
+    //       item.locked = true;
+    //       item.targetScale = 2;
+    //       item.animating = true;
+    //     }else{
+    //       item.locked = false;
+    //       item.targetScale=1;
+    //        item.animating = false;
+    //     }
+    //   }
+  };
+  // MOBILE EVENT
+  p.touchStarted = (e) => {
+    handleInteraction(p.mouseX, p.mouseY, true);
+    return false;
+  };
+  // p.touchEnd = () => {
+  //   return false;
+  // };
+
+  p.touchMoved = () => {
+    handleInteraction(p.mouseX, p.mouseY);
+    return false;
+  };
+  p.touchStarted = () => {
+    handleInteraction(p.mouseX, p.mouseY, true);
+    return false;
+  };
+
+  function handleInteraction(px, py, isClick = false) {
+    activeIndex = -1;
+
+    items.forEach((item, i) => {
+      let d = p.dist(px, py, item.x, item.y);
 
       if (d < item.size / 2) {
-        item.locked = true;
+        activeIndex = i;
         item.targetScale = 2;
-        item.animating = true;
-      }else{
-        item.locked = false;
-        item.targetScale=1;
-         item.animating = false;
+      } else {
+        item.targetScale = 1;
       }
-    }
-  };
+    });
+  }
+  // function handleInteraction(px, py, isClick = false) {
+  //   activeIndex = -1;
+  //   items.forEach((item, i) => {
+  //     let d = p.dist(px, py, item.x, item.y);
+
+  //     if (d < item.size / 2) {
+  //       if (isClick) {
+  //         activeIndex = i;
+  //         item.locked = true;
+  //         item.targetScale = 2;
+  //         item.animating = true;
+  //       } else if (!item.locked) {
+  //         item.targetScale = 2;
+  //         item.animating = true;
+  //       }
+  //     } else if (!item.locked) {
+  //       item.targetScale = 1;
+  //       item.animating = true;
+  //     } else {
+  //       if (isClick) {
+  //         item.locked = false;
+  //         item.targetScale = 1;
+  //         item.animating = false;
+  //       }
+  //     }
+  //   });
+  // }
   function handleMouseMove(event) {}
 
   function handleMouseLeave() {}
