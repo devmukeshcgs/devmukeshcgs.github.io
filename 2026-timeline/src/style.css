@@ -11,8 +11,8 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
@@ -50,16 +50,15 @@
   }
 }
 
-html{
+html {
   overflow: hidden;
 }
 body {
   margin: 0;
   padding: 0;
-
 }
 main,
-canvas{
+canvas {
   margin: 0;
   padding: 0;
 }
@@ -288,7 +287,7 @@ code {
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: -4.5px;
     border: 5px solid transparent;
@@ -305,10 +304,34 @@ code {
 }
 #tooltip {
   position: absolute;
-  background: rgb(31, 0, 168);
+  background: rgb(50, 50, 50);
   color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
+  border-radius: 0px;
   pointer-events: none;
   display: none;
+  align-content: center;
+  align-items: center;
+  padding: 8px;
+}
+img,
+div {
+  margin: 0;
+  padding: 0;
+}
+.company {
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: normal;
+  line-height: normal;
+}
+#tooltip .container {
+  letter-spacing: normal;
+  line-height: normal;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  /* align-content: center; */
+  font-size: 10px;
+  gap: 8px;
 }

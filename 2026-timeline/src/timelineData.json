@@ -24,55 +24,64 @@
             "company": "Blackant Advertising",
             "role": "Web Designer",
             "yr": 2007.9,
-            "display": "2007"
+            "display": "2007",
+            "img": "/images/img.png"
         },
         {
             "company": "HnM Travel Agency",
             "role": "Graphic/Web Designer",
             "yr": 2012.5,
-            "display": "2012"
+            "display": "2012",
+            "img": "/images/img.png"
         },
         {
             "company": "Astrika Infotech",
             "role": "Frontend Developer",
             "yr": 2014.5,
-            "display": "2014"
+            "display": "2014",
+            "img": "/images/img.png"
         },
         {
             "company": "McCann World Group",
             "role": "Frontend Developer",
             "yr": 2018.7,
-            "display": "2018"
+            "display": "2018",
+            "img": "/images/img.png"
         },
         {
             "company": "Navneet Future Tech",
             "role": "Frontend Developer",
             "yr": 2020.0,
-            "display": "2020"
+            "display": "2020",
+            "img": "/images/img.png"
         },
         {
             "company": "Coinlock LLC",
             "role": "Frontend Developer",
             "yr": 2021.3,
-            "display": "2021"
+            "display": "2021",
+            "img": "/images/img.png"
         },
         {
             "company": "BeMasterly",
             "role": "Frontend Developer",
             "yr": 2022.3,
-            "display": "2022"
+            "display": "2022",
+            "img": "/images/img.png"
         },
         {
             "company": "11Challengers",
             "role": "Frontend Developer",
             "yr": 2023.1,
-            "display": "2023"
+            "display": "2023",
+            "img": "/images/img.png"
         },
         {
             "company": "11Challengers",
             "role": "Frontend Developer",
             "yr": 2024,
-            "display": "2024"
+            "display": "2024",
+            "img": "/images/img.png"
         }
     ]
 }

@@ -3,27 +3,28 @@ import javascriptLogo from "./assets/javascript.svg";
 import viteLogo from "./assets/vite.svg";
 import heroImg from "./assets/hero.png";
 import timelineData from "./timelineData.json";
-
 // new p5(sketch);
 import p5 from "p5";
 import gsap from "gsap";
 
-// Global state object
-const state = {};
-
 const sketch = (p) => {
+  let lastActiveIndex = -1;
+  let lastX = 0;
+  let lastY = 0;
+
   let items = [];
   let activeIndex = -1;
   let tooltip;
-  // let timelineData = null; // Initialize as null to check status
-  let animation = { progress: 0 };
+  let imgDiv;
+ 
   const startYear = 2007;
   const endYear = 2026;
-  let hoveredYear = null;
-  let infoPanel;
-  let padding = p.width * 0.0;
-  let centerY = p.height / 2;
 
+  // ✅ MUST be inside sketch
+  // p.preload = () => {
+  // img22 = p.loadImage(heroImg);
+  // };
+  // };
   p.setup = () => {
     // p.noLoop(); // Stops the continuous loop initially
     // Add mouse move listener for canvas
@@ -33,7 +34,7 @@ const sketch = (p) => {
     canvasElement.addEventListener("mouseleave", handleMouseLeave);
     // get tooltip div
     tooltip = document.getElementById("tooltip");
-
+    imgDiv = document.getElementById("imgDiv");
     for (let i = 0; i < timelineData.experience.length; i++) {
       let xx = p.map(
         timelineData.experience[i].yr,
@@ -42,10 +43,16 @@ const sketch = (p) => {
         0,
         p.width,
       );
-
+      const imgHTML = `<img id="myImg${i}" width="60px" src="${timelineData.experience[i].img}" />`;
+      imgDiv.insertAdjacentHTML("beforeend", imgHTML);
+      let path = timelineData.experience[i].img;
+      let imageEl = new Image();
+      imageEl.src = path;
       items.push({
+        imgEl: imageEl,
         animating: true,
         locked: false,
+        img: null,
         x: xx,
         y: p.height / 2,
         size: 10,
@@ -107,6 +114,7 @@ const sketch = (p) => {
           item.animating = false;
         }
       }
+      // 🟥⬜🟧🟨🟩🟦🟪RECT - Red
       // 👉 Lerp Value -smooth animation
       item.alpha = p.lerp(item.alpha, item.targetAlpha, 0.1);
       item.scale = p.lerp(item.scale, item.targetScale, 0.1);
@@ -120,9 +128,11 @@ const sketch = (p) => {
       p.push();
       p.noStroke();
       p.fill(255, 0, 0);
+      // 🟥RECT - Red
       p.rect(item.rect.x, item.rect.y, item.rect.w, item.rect.h);
       p.pop();
       // Working Eg.
+      // ⬜ RECT - White
       p.rect(
         item.x,
         item.y - item.rectSize / 2,
@@ -143,21 +153,56 @@ const sketch = (p) => {
     // 👉 Tooltip logic
     updateTooltip();
   };
+
   function updateTooltip() {
     if (!tooltip) return;
 
-    if (activeIndex !== -1) {
-      let item = items[activeIndex];
-
-      let rect = p.canvas.getBoundingClientRect();
-
-      tooltip.style.display = "block";
-      tooltip.style.left = rect.left + item.x + "px";
-      tooltip.style.top = rect.top + item.y - 40 + "px";
-      tooltip.innerHTML = `Item ${activeIndex}`;
-    } else {
-      tooltip.style.display = "none";
+    // 👉 If nothing is active
+    if (activeIndex === -1) {
+      if (lastActiveIndex !== -1) {
+        tooltip.style.display = "none";
+        lastActiveIndex = -1;
+      }
+      return;
     }
+
+    let item = items[activeIndex];
+    let itemYer = timelineData.experience[activeIndex];
+    let rectC = p.canvas.getBoundingClientRect();
+
+    let x = rectC.left + item.x;
+    let y = rectC.top + item.y - 0;
+
+    // 👉 Only update when needed
+    if (
+      activeIndex !== lastActiveIndex ||
+      Math.abs(x - lastX) > 1 ||
+      Math.abs(y - lastY) > 1
+    ) {
+      tooltip.style.display = "flex";
+      tooltip.style.left = x + "px";
+      tooltip.style.top = y + "px";
+
+      // update text only if changed
+      if (activeIndex !== lastActiveIndex) {
+        // tooltip.innerHTML = `Item ${activeIndex}`;
+        tooltip.innerHTML = `<div class="container">
+      <div>
+        <img id="myImg" width="60px"
+          src="https://helios-assets.wetransfer.net/default/team_placeholder_05.png" />
+      </div>
+      <div>
+        <div class='company'>${itemYer.company}</div>
+        <div>${itemYer.role}</div>
+      </div>
+    </div>`;
+      }
+
+      lastActiveIndex = activeIndex;
+      lastX = x;
+      lastY = y;
+    }
+ 
   }
   // // 👉 Click (desktop)
   // p.mousePressed = () => {
@@ -247,45 +292,31 @@ const sketch = (p) => {
 
   function handleInteraction(px, py, isClick = false) {
     activeIndex = -1;
-
     items.forEach((item, i) => {
       let d = p.dist(px, py, item.x, item.y);
 
       if (d < item.size / 2) {
         activeIndex = i;
-        item.targetScale = 2;
-      } else {
+        if (isClick) {
+          item.locked = true;
+          item.targetScale = 2;
+          item.animating = true;
+        } else if (!item.locked) {
+          item.targetScale = 2;
+          item.animating = true;
+        }
+      } else if (!item.locked) {
         item.targetScale = 1;
+        item.animating = true;
+      } else {
+        if (isClick) {
+          item.locked = false;
+          item.targetScale = 1;
+          item.animating = false;
+        }
       }
     });
   }
-  // function handleInteraction(px, py, isClick = false) {
-  //   activeIndex = -1;
-  //   items.forEach((item, i) => {
-  //     let d = p.dist(px, py, item.x, item.y);
-
-  //     if (d < item.size / 2) {
-  //       if (isClick) {
-  //         activeIndex = i;
-  //         item.locked = true;
-  //         item.targetScale = 2;
-  //         item.animating = true;
-  //       } else if (!item.locked) {
-  //         item.targetScale = 2;
-  //         item.animating = true;
-  //       }
-  //     } else if (!item.locked) {
-  //       item.targetScale = 1;
-  //       item.animating = true;
-  //     } else {
-  //       if (isClick) {
-  //         item.locked = false;
-  //         item.targetScale = 1;
-  //         item.animating = false;
-  //       }
-  //     }
-  //   });
-  // }
   function handleMouseMove(event) {}
 
   function handleMouseLeave() {}
