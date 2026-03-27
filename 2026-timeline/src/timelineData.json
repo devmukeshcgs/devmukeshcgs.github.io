@@ -21,67 +21,147 @@
     },
     "experience": [
         {
+            "company": "🐣",
+            "role": "Web Designer",
+            "yr": 1986,
+            "month": "jan",
+            "display": "1986",
+            "startYear": "2007",
+            "endYear": "2022",
+            "endMonth": "dec",
+            "img": "/images/shiva.jpg"
+        },
+        {
+            "company": "SSC",
+            "role": "Student",
+            "yr": 2002,
+            "month": "jan",
+            "display": "2002",
+            "startYear": "2007",
+            "endYear": "2022",
+            "endMonth": "dec",
+            "img": "/images/god.jpg"
+        },
+        {
+            "company": "HSC",
+            "role": "Student",
+            "yr": 2004,
+            "month": "jan",
+            "display": "2004",
+            "startYear": "2007",
+            "endYear": "2022",
+            "endMonth": "dec",
+            "img": "/images/shiva.jpg"
+        },
+        {
             "company": "Blackant Advertising",
             "role": "Web Designer",
             "yr": 2007.9,
+            "month": "jan",
             "display": "2007",
-            "img": "/images/img.png"
+            "startYear": "2007",
+            "endYear": "2022",
+            "endMonth": "dec",
+            "img": "/images/god.jpg"
         },
         {
             "company": "HnM Travel Agency",
             "role": "Graphic/Web Designer",
             "yr": 2012.5,
+            "month": "jan",
             "display": "2012",
-            "img": "/images/img.png"
+            "startYear": "2012",
+            "endYear": "2013",
+            "endMonth": "dec",
+            "img": "/images/shiva.jpg"
+        },
+        {
+            "company": "BCA",
+            "role": "Student",
+            "yr": 2013,
+            "month": "jan",
+            "display": "2013",
+            "startYear": "2007",
+            "endYear": "2022",
+            "endMonth": "dec",
+            "img": "/images/god.jpg"
         },
         {
             "company": "Astrika Infotech",
-            "role": "Frontend Developer",
+            "role": "Frontend Dev",
             "yr": 2014.5,
+            "startYear": "20012",
+            "month": "jan",
             "display": "2014",
-            "img": "/images/img.png"
+            "endYear": "2022",
+            "endMonth": "dec",
+            "img": "/images/shiva.jpg"
         },
         {
             "company": "McCann World Group",
-            "role": "Frontend Developer",
+            "role": "Frontend Dev",
             "yr": 2018.7,
+            "month": "jan",
+            "startYear": "20012",
             "display": "2018",
-            "img": "/images/img.png"
-        },
-        {
-            "company": "Navneet Future Tech",
-            "role": "Frontend Developer",
-            "yr": 2020.0,
-            "display": "2020",
-            "img": "/images/img.png"
+            "endYear": "2022",
+            "endMonth": "dec",
+            "img": "/images/god.jpg"
         },
         {
             "company": "Coinlock LLC",
-            "role": "Frontend Developer",
+            "role": "Frontend Dev",
             "yr": 2021.3,
+            "month": "apr",
+            "startYear": "20012",
             "display": "2021",
-            "img": "/images/img.png"
+            "endYear": "2022",
+            "endMonth": "dec",
+            "img": "/images/shiva.jpg"
+        },
+        {
+            "company": "Navneet Future Tech",
+            "role": "Frontend Dev",
+            "yr": 2022,
+            "startYear": "20012",
+            "month": "jul",
+            "display": "2020",
+            "endYear": "2022",
+            "endMonth": "dec",
+            "img": "/images/god.jpg"
         },
         {
             "company": "BeMasterly",
-            "role": "Frontend Developer",
+            "role": "Frontend Dev",
             "yr": 2022.3,
-            "display": "2022",
-            "img": "/images/img.png"
-        },
-        {
-            "company": "11Challengers",
-            "role": "Frontend Developer",
-            "yr": 2023.1,
+            "month": "jan",
+            "startYear": "20012",
             "display": "2023",
-            "img": "/images/img.png"
+            "endYear": "2022",
+            "endMonth": "dec",
+            "img": "/images/shiva.jpg"
         },
         {
             "company": "11Challengers",
-            "role": "Frontend Developer",
+            "role": "Frontend Dev",
             "yr": 2024,
+            "month": "jan",
+            "startYear": "20012",
             "display": "2024",
-            "img": "/images/img.png"
+            "endYear": "2026",
+            "endMonth": "dec",
+            "img": "/images/god.jpg"
+        },
+        {
+            "company": "🔍",
+            "role": "Frontend Dev",
+            "yr": 2026,
+            "month": "jan",
+            "startYear": "20012",
+            "display": "2026",
+            "endYear": "2026",
+            "endMonth": "dec",
+            "img": "/images/god.jpg"
         }
     ]
 }

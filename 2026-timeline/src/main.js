@@ -6,25 +6,38 @@ import timelineData from "./timelineData.json";
 // new p5(sketch);
 import p5 from "p5";
 import gsap from "gsap";
-
+import godImg from "./assets/god.jpg";
+import godImg2 from "./assets/shiva.jpg";
 const sketch = (p) => {
   let lastActiveIndex = -1;
   let lastX = 0;
   let lastY = 0;
-
+  let testImg;
   let items = [];
   let activeIndex = -1;
   let tooltip;
   let imgDiv;
- 
+  let imgTag;
   const startYear = 2007;
-  const endYear = 2026;
+  const endYear = new Date().getFullYear();
 
-  // ✅ MUST be inside sketch
-  // p.preload = () => {
-  // img22 = p.loadImage(heroImg);
-  // };
-  // };
+  //////////////////////////////////////////
+  let imgs = [];
+  let loaded = 0;
+
+  timelineData.experience.forEach((item, i) => {
+    p.loadImage(
+      item.img,
+      (img) => {
+        imgs[i] = img;
+        loaded++;
+      },
+      (err) => {
+        console.error("Failed:", item.img);
+      },
+    );
+  });
+
   p.setup = () => {
     // p.noLoop(); // Stops the continuous loop initially
     // Add mouse move listener for canvas
@@ -35,16 +48,18 @@ const sketch = (p) => {
     // get tooltip div
     tooltip = document.getElementById("tooltip");
     imgDiv = document.getElementById("imgDiv");
+    imgTag = document.getElementById("myImg"); // get HTML image
+
     for (let i = 0; i < timelineData.experience.length; i++) {
       let xx = p.map(
         timelineData.experience[i].yr,
         startYear,
         endYear,
-        0,
-        p.width,
+        100,
+        p.width - 100,
       );
-      const imgHTML = `<img id="myImg${i}" width="60px" src="${timelineData.experience[i].img}" />`;
-      imgDiv.insertAdjacentHTML("beforeend", imgHTML);
+
+      ////////////////////////////////////////////////
       let path = timelineData.experience[i].img;
       let imageEl = new Image();
       imageEl.src = path;
@@ -79,6 +94,13 @@ const sketch = (p) => {
   };
 
   p.draw = () => {
+    if (loaded !== timelineData.experience.length) {
+      p.background(0);
+      p.fill(255);
+      p.text("Loading...", 20, 20);
+      return;
+    }
+
     p.background(20);
     p.push();
     p.stroke(255, 0, 0);
@@ -114,7 +136,8 @@ const sketch = (p) => {
           item.animating = false;
         }
       }
-      // 🟥⬜🟧🟨🟩🟦🟪RECT - Red
+      // 🟥⬜🟧🟨🟩🟦🟪
+      //⚫🟤🟣🔵🟢🟡🟠🔴
       // 👉 Lerp Value -smooth animation
       item.alpha = p.lerp(item.alpha, item.targetAlpha, 0.1);
       item.scale = p.lerp(item.scale, item.targetScale, 0.1);
@@ -139,14 +162,18 @@ const sketch = (p) => {
         item.rectSize,
         item.rectSize / 2,
       );
+      // p.image(item.img, 25, 25, 50, 50, 25, 25, 50, 50);
+      p.image(imgs[i], item.x,  item.y - item.rectSize / 2,  100, 100);
 
-      // 👉 Draw
+
+      let iSize = i === items.length - 1 ? item.size * 2 : item.size;
+      // 👉 Draw ⚪
       p.push();
       p.translate(item.x, item.y);
       p.scale(item.scale);
       p.fill(255);
       p.noStroke();
-      p.ellipse(0, 0, item.size);
+      p.ellipse(0, 0, iSize);
       p.pop();
     });
     handleInteraction(p.mouseX, p.mouseY);
@@ -202,7 +229,6 @@ const sketch = (p) => {
       lastX = x;
       lastY = y;
     }
- 
   }
   // // 👉 Click (desktop)
   // p.mousePressed = () => {
@@ -236,7 +262,7 @@ const sketch = (p) => {
     // // Labels
     p.textAlign(p.CENTER);
     p.fill(200);
-    p.textSize(8);
+    p.textSize(10);
     p.text(
       timelineData.experience[i].display ||
         Math.floor(timelineData.experience[i].yr),
